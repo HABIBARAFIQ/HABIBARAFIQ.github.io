@@ -1,0 +1,1232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habiba Rafique | Deep Learning, HCI & Human-Centered AI</title>
+    <meta
+      name="description"
+      content="Habiba Rafique — M.Sc. student at BUET working across machine learning, deep learning, and Human-Computer Interaction."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #000000;
+        --muted: #5a5a5a;
+        --faint: #8a8a8a;
+        --line: #e2e2e2;
+        --soft: #f5f5f5;
+        --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #000000;
+          --text: #ffffff;
+          --muted: #a8a8a8;
+          --faint: #6e6e6e;
+          --line: #262626;
+          --soft: #0f0f0f;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #000000;
+        --text: #ffffff;
+        --muted: #a8a8a8;
+        --faint: #6e6e6e;
+        --line: #262626;
+        --soft: #0f0f0f;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.65;
+        font-size: 16px;
+        transition:
+          background 0.4s var(--ease),
+          color 0.4s var(--ease);
+      }
+      a {
+        color: inherit;
+      }
+      .wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 0 clamp(20px, 5vw, 64px);
+      }
+
+      /* Animated underline for text links */
+      .ul {
+        text-decoration: none;
+        background: linear-gradient(currentColor, currentColor) 0 100% / 100%
+          1px no-repeat;
+        transition: background-size 0.35s var(--ease);
+      }
+      .ul:hover {
+        background-size: 0 1px;
+        background-position: 100% 100%;
+      }
+
+      /* Progress bar */
+      #progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 0;
+        background: var(--text);
+        z-index: 30;
+      }
+
+      /* Nav */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: color-mix(in srgb, var(--bg) 85%, transparent);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.3s;
+      }
+      nav.scrolled {
+        border-bottom-color: var(--line);
+      }
+      nav .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+      }
+      .logo {
+        font-family: "Fraunces", serif;
+        font-weight: 600;
+        font-size: clamp(1.4rem, 2vw, 1.9rem);
+        line-height: 1;
+        text-decoration: none;
+      }
+      .links {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+      }
+      .links a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.88rem;
+        font-weight: 500;
+        position: relative;
+        transition: color 0.25s;
+      }
+      .links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        height: 1px;
+        width: 100%;
+        background: var(--text);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.35s var(--ease);
+      }
+      .links a:hover,
+      .links a.active {
+        color: var(--text);
+      }
+      .links a:hover::after,
+      .links a.active::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+      #theme {
+        background: none;
+        border: 1px solid var(--line);
+        color: var(--text);
+        width: 34px;
+        height: 34px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition:
+          transform 0.5s var(--ease),
+          border-color 0.25s;
+      }
+      #theme:hover {
+        border-color: var(--text);
+        transform: rotate(180deg);
+      }
+
+      /* Hero */
+      .hero {
+        min-height: calc(100vh - 60px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 60px 0;
+      }
+      .eyebrow {
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      h1 {
+        font-family: "Fraunces", serif;
+        font-weight: 400;
+        font-size: clamp(2.4rem, 7vw, 4.4rem);
+        line-height: 1.05;
+        margin: 18px 0 24px;
+        letter-spacing: -0.02em;
+      }
+      h1 em {
+        font-style: italic;
+      }
+      .lead {
+        font-size: 1.15rem;
+        color: var(--muted);
+        max-width: 640px;
+      }
+      .cta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 34px;
+      }
+      .btn {
+        padding: 11px 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        border: 1px solid var(--text);
+        position: relative;
+        overflow: hidden;
+        z-index: 0;
+        transition: color 0.35s var(--ease);
+      }
+      .btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--text);
+        z-index: -1;
+        transform: translateY(101%);
+        transition: transform 0.35s var(--ease);
+      }
+      .btn:hover {
+        color: var(--bg);
+      }
+      .btn:hover::before {
+        transform: translateY(0);
+      }
+      .btn.solid {
+        background: var(--text);
+        color: var(--bg);
+      }
+      .btn.solid::before {
+        background: var(--bg);
+      }
+      .btn.solid:hover {
+        color: var(--text);
+      }
+      .scroll-hint {
+        margin-top: 64px;
+        font-size: 0.78rem;
+        color: var(--faint);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .scroll-hint span {
+        display: block;
+        width: 1px;
+        height: 32px;
+        background: var(--faint);
+        animation: drip 2s var(--ease) infinite;
+        transform-origin: top;
+      }
+      @keyframes drip {
+        0% {
+          transform: scaleY(0);
+        }
+        50% {
+          transform: scaleY(1);
+          transform-origin: top;
+        }
+        51% {
+          transform-origin: bottom;
+        }
+        100% {
+          transform: scaleY(0);
+          transform-origin: bottom;
+        }
+      }
+
+      /* Hero entrance */
+      .hero > * {
+        opacity: 0;
+        transform: translateY(18px);
+        animation: rise 0.9s var(--ease) forwards;
+      }
+      .hero > *:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .hero > *:nth-child(3) {
+        animation-delay: 0.22s;
+      }
+      .hero > *:nth-child(4) {
+        animation-delay: 0.34s;
+      }
+      .hero > *:nth-child(5) {
+        animation-delay: 0.6s;
+      }
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* Sections */
+      section {
+        padding: 88px 0;
+        border-top: 1px solid var(--line);
+      }
+      .sec-head {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+      .num {
+        font-size: 0.8rem;
+        color: var(--faint);
+        font-variant-numeric: tabular-nums;
+      }
+      h2 {
+        font-family: "Fraunces", serif;
+        font-weight: 400;
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        letter-spacing: -0.01em;
+      }
+      h3 {
+        font-size: 1.06rem;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .small {
+        font-size: 0.88rem;
+      }
+
+      /* Reveal on scroll */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.8s var(--ease),
+          transform 0.8s var(--ease);
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* About */
+      .about {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 48px;
+      }
+      .about p + p {
+        margin-top: 14px;
+      }
+      .interests {
+        list-style: none;
+        border-top: 1px solid var(--line);
+      }
+      .interests li {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.93rem;
+      }
+
+      /* Education timeline */
+      .timeline {
+        position: relative;
+        padding-left: 28px;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 8px;
+        bottom: 8px;
+        width: 1px;
+        background: var(--line);
+      }
+      .t-item {
+        position: relative;
+        padding-bottom: 32px;
+      }
+      .t-item:last-child {
+        padding-bottom: 0;
+      }
+      .t-item::before {
+        content: "";
+        position: absolute;
+        left: -28px;
+        top: 7px;
+        width: 9px;
+        height: 9px;
+        border: 1px solid var(--text);
+        background: var(--bg);
+        transition: background 0.3s;
+      }
+      .t-item.current::before,
+      .t-item:hover::before {
+        background: var(--text);
+      }
+      .t-date {
+        font-size: 0.8rem;
+        color: var(--faint);
+        letter-spacing: 0.04em;
+        margin-bottom: 2px;
+      }
+
+      /* Featured research */
+      .feature {
+        border: 1px solid var(--text);
+        padding: 32px;
+        margin-bottom: 24px;
+      }
+      .status {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: 1px solid var(--text);
+        padding: 3px 9px;
+        margin-bottom: 14px;
+      }
+      .feature .q {
+        max-width: 780px;
+        font-family: "Fraunces", serif;
+        font-size: 1.25rem;
+        line-height: 1.4;
+        margin: 10px 0 24px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 24px;
+      }
+      .stat {
+        padding: 18px 0;
+        text-align: center;
+      }
+      .stat + .stat {
+        border-left: 1px solid var(--line);
+      }
+      .stat b {
+        display: block;
+        font-family: "Fraunces", serif;
+        font-weight: 400;
+        font-size: 2.2rem;
+        line-height: 1;
+      }
+      .stat span {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+      }
+      .label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--faint);
+        margin-bottom: 8px;
+      }
+      .dash {
+        list-style: none;
+      }
+      .dash li {
+        padding-left: 16px;
+        position: relative;
+        margin-bottom: 6px;
+        font-size: 0.94rem;
+      }
+      .dash li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--faint);
+      }
+
+      /* Research rows */
+      .rows {
+        border-top: 1px solid var(--line);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 24px;
+        padding: 26px 0;
+        border-bottom: 1px solid var(--line);
+        transition:
+          padding 0.35s var(--ease),
+          background 0.35s;
+      }
+      .row:hover {
+        background: var(--soft);
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .row .when {
+        font-size: 0.82rem;
+        color: var(--faint);
+        padding-top: 2px;
+      }
+      .row p {
+        max-width: 720px;
+        margin-top: 6px;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+      .row .venue {
+        font-size: 0.86rem;
+        margin-top: 4px;
+        display: inline-block;
+      }
+
+      /* Projects */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .proj {
+        border: 1px solid var(--line);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        transition:
+          border-color 0.3s,
+          transform 0.4s var(--ease);
+      }
+      .proj:hover {
+        border-color: var(--text);
+        transform: translateY(-4px);
+      }
+      .proj .kind {
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+      .proj h3 {
+        margin: 8px 0 8px;
+        font-family: "Fraunces", serif;
+        font-weight: 400;
+        font-size: 1.4rem;
+      }
+      .proj p {
+        font-size: 0.92rem;
+        color: var(--muted);
+        flex: 1;
+      }
+      .proj .stack {
+        font-size: 0.78rem;
+        margin-top: 16px;
+        color: var(--muted);
+      }
+      .proj .go {
+        margin-top: 14px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+      .proj .go i {
+        font-style: normal;
+        display: inline-block;
+        transition: transform 0.35s var(--ease);
+      }
+      .proj:hover .go i {
+        transform: translateX(6px);
+      }
+
+      /* Skills */
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px 40px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .chip {
+        border: 1px solid var(--line);
+        padding: 4px 10px;
+        font-size: 0.84rem;
+        transition:
+          border-color 0.25s,
+          background 0.25s,
+          color 0.25s;
+      }
+      .chip:hover {
+        border-color: var(--text);
+        background: var(--text);
+        color: var(--bg);
+      }
+
+      /* Recognition */
+      .rec {
+        list-style: none;
+        border-top: 1px solid var(--line);
+      }
+      .rec li {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 16px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--line);
+        align-items: baseline;
+      }
+
+      /* Contact */
+      .contact {
+        text-align: center;
+        padding: 110px 0;
+      }
+      .contact h2 {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        margin-bottom: 14px;
+      }
+      .contact .cta {
+        justify-content: center;
+      }
+      footer {
+        padding: 28px 0 40px;
+        border-top: 1px solid var(--line);
+        font-size: 0.82rem;
+        color: var(--faint);
+      }
+      footer .wrap {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      @media (max-width: 760px) {
+        .links a {
+          display: none;
+        }
+        .about,
+        .two,
+        .skills {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .row {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+        .feature {
+          padding: 22px;
+        }
+        .stat b {
+          font-size: 1.7rem;
+        }
+        section {
+          padding: 64px 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+        .reveal,
+        .hero > * {
+          opacity: 1;
+          transform: none;
+        }
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="progress"></div>
+
+    <nav id="nav">
+      <div class="wrap">
+        <a href="#top" class="logo">Habiba Rafique</a>
+        <div class="links">
+          <a href="#about">About</a>
+          <a href="#education">Education</a>
+          <a href="#affiliations">Affiliations</a>
+          <a href="#research">Research</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+          <button id="theme" aria-label="Toggle light and dark mode">◐</button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="wrap" id="top">
+      <header class="hero">
+        <div class="eyebrow">Machine Learning · Deep Learning · HCI</div>
+        <h1>Building AI that works,<br />and works for <em>people</em>.</h1>
+        <p class="lead">
+          I'm Habiba, an M.Sc. student in CSE at BUET. I work on both sides of
+          AI: building and evaluating machine learning models, and understanding
+          how people actually use and trust the systems built on them.
+        </p>
+        <div class="cta">
+          <a class="btn solid" href="#research">See my research</a>
+          <a class="btn" href="Habiba_resume.pdf" target="_blank"
+            >Download CV</a
+          >
+        </div>
+        <div class="scroll-hint"><span></span>Scroll</div>
+      </header>
+
+      <section id="about">
+        <div class="sec-head reveal">
+          <span class="num">01</span>
+          <h2>About</h2>
+        </div>
+        <div class="about">
+          <div class="reveal">
+            <p>
+              I&rsquo;m an MSc student in Computer Science and Engineering at
+              BUET, interested in exploring the intersection of Machine Learning
+              and Human-Computer Interaction (HCI). My research interests span
+              Deep Learning, Large Language Models, and Human-Centered AI, with
+              a focus on understanding intelligent systems from both
+              computational and human perspectives.
+            </p>
+            <p>
+              I&rsquo;m particularly interested in how deep learning models
+              learn, reason, and perform, as well as how people interact with,
+              perceive, and trust AI-driven technologies. I&rsquo;m drawn to
+              research that goes beyond model performance, bringing together
+              technical innovation and human perspectives to create intelligent
+              systems that are effective, accessible, and aligned with human
+              needs.
+            </p>
+          </div>
+          <ul class="interests reveal">
+            <li>Machine Learning</li>
+            <li>Deep Learning</li>
+            <li>Human-Computer Interaction</li>
+            <li>Human-Centered &amp; Trustworthy AI</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="education">
+        <div class="sec-head reveal">
+          <span class="num">02</span>
+          <h2>Education</h2>
+        </div>
+        <div class="timeline">
+          <div class="t-item current reveal">
+            <div class="t-date">OCT 2026 — PRESENT</div>
+            <h3>M.Sc. in Computer Science and Engineering</h3>
+            <div class="muted small">
+              Bangladesh University of Engineering and Technology (BUET)
+            </div>
+          </div>
+          <div class="t-item reveal">
+            <div class="t-date">2022 — 2026</div>
+            <h3>B.Sc. in Computer Science and Engineering</h3>
+            <div class="muted small">
+              Bangladesh University of Engineering and Technology (BUET)
+            </div>
+          </div>
+          <div class="t-item reveal">
+            <div class="t-date">2018 — 2020</div>
+            <h3>Higher Secondary Certificate</h3>
+            <div class="muted small">Holy Cross College, Dhaka</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="affiliations">
+        <div class="sec-head reveal">
+          <span class="num">03</span>
+          <h2>Professional affiliations</h2>
+        </div>
+        <div class="timeline">
+          <div class="t-item current reveal">
+            <div class="t-date">Jan 2026 — Present</div>
+            <h3>General Member</h3>
+            <div class="muted small">
+              BRAC Human-Centered Computing and Society (HCCS)
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="research">
+        <div class="sec-head reveal">
+          <span class="num">04</span>
+          <h2>Research</h2>
+        </div>
+
+        <article class="feature reveal">
+          <span class="status"
+            >Undergraduate thesis · Manuscript in preparation</span
+          >
+          <h3>Self-Tracking and Digital Health in Bangladesh</h3>
+          <p class="q">
+            How do people in Bangladesh experience self-tracking tools — and
+            what would make those tools feel safe, accessible, and supportive?
+          </p>
+          <div class="stats">
+            <div class="stat">
+              <b data-count="533">533</b><span>survey respondents</span>
+            </div>
+            <div class="stat">
+              <b data-count="49">49</b><span>bilingual survey items</span>
+            </div>
+            <div class="stat">
+              <b data-count="9">9</b><span>in-depth interviews</span>
+            </div>
+          </div>
+          <div class="two">
+            <div>
+              <div class="label">Approach</div>
+              <ul class="dash">
+                <li>
+                  Mixed methods: quantitative survey + Bangla–English interviews
+                </li>
+                <li>
+                  Reliability, correlation, regression and Random Forest models,
+                  with subgroup fairness checks
+                </li>
+                <li>
+                  Thematic coding plus embedding-based analysis of open-ended
+                  answers
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div class="label">Design implications</div>
+              <ul class="dash">
+                <li>Privacy-by-default data handling</li>
+                <li>Bangla-first interaction</li>
+                <li>Compassionate, non-judgemental AI feedback</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <div class="rows">
+          <div class="row reveal">
+            <div class="when">2025 — 2026</div>
+            <div>
+              <h3>
+                Hybrid Quantum Machine Learning for Skin Lesion Classification
+              </h3>
+              <a
+                class="venue ul"
+                href="https://ieeexplore.ieee.org/document/11546183"
+                target="_blank"
+                rel="noopener"
+                >IEEE QPAIN 2026 ↗</a
+              >
+              <p>
+                Combined MobileCLIP image features with a quantum circuit
+                classifier, and benchmarked it against classical models to see
+                where quantum learning helps and where it doesn't.
+              </p>
+            </div>
+          </div>
+          <div class="row reveal">
+            <div class="when">Jul 2025 — Jan 2026</div>
+            <div>
+              <h3>Research Trainee, LLM Alignment</h3>
+              <a
+                class="venue ul"
+                href="https://amirl.org/"
+                target="_blank"
+                rel="noopener"
+                >Advanced Machine Intelligence Research Lab ↗</a
+              >
+              <p>
+                Systematic review of how LLMs are aligned with human preferences
+                (RLHF, DPO), comparing online and offline methods on stability,
+                cost, and generalisation.
+              </p>
+            </div>
+          </div>
+          <div class="row reveal">
+            <div class="when">Cohort 9.0</div>
+            <div>
+              <h3>Research Intern, CHIRAL Bangladesh</h3>
+              <span class="venue muted"
+                >Center for Health Innovation, Research, Action and
+                Learning</span
+              >
+              <p>
+                Trained in the research craft behind health studies: finding
+                gaps in the literature, framing research questions, and
+                scientific writing.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="sec-head reveal">
+          <span class="num">05</span>
+          <h2>Projects</h2>
+        </div>
+        <div class="grid">
+          <a
+            class="proj reveal"
+            href="https://github.com/HABIBARAFIQ/StuddyBuddy"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="kind">AI · Education</span>
+            <h3>StuddyBuddy</h3>
+            <p>
+              Upload your study material and ask questions about it. A retrieval
+              pipeline finds the relevant passages and Gemini answers in
+              context.
+            </p>
+            <div class="stack">RAG · Qdrant · Gemini · Docker · Azure</div>
+            <div class="go">View code <i>→</i></div>
+          </a>
+          <a
+            class="proj reveal"
+            href="https://github.com/HABIBARAFIQ/AI-ML-practice-projects"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="kind">LLM</span>
+            <h3>LLM Development</h3>
+            <p>
+              Exploring LLM-based applications, retrieval-augmented generation
+              (RAG), document processing, and LLM integration.
+            </p>
+            <div class="stack">LLMs · RAG · LangChain · TensorFlow</div>
+            <div class="go">View code <i>→</i></div>
+          </a>
+          <a
+            class="proj reveal"
+            href="https://github.com/HABIBARAFIQ/Level-4"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="kind">ML · Deep Learning</span>
+            <h3>ML &amp; DL</h3>
+            <p>
+              Implementations and experiments with machine learning algorithms
+              and deep learning models, focusing on model development and
+              evaluation.
+            </p>
+            <div class="stack">PyTorch · NumPy · scikit-learn</div>
+            <div class="go">View code <i>→</i></div>
+          </a>
+          <a
+            class="proj reveal"
+            href="https://github.com/Learnathon-By-Geeky-Solutions/bytefixers"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="kind">Productivity</span>
+            <h3>ByteFixers</h3>
+            <p>
+              A team project manager with AI-assisted features, secure sign-in,
+              and an automated deployment pipeline.
+            </p>
+            <div class="stack">MERN · Gemini API · Cloudinary</div>
+            <div class="go">View code <i>→</i></div>
+          </a>
+          <a
+            class="proj reveal"
+            href="https://github.com/HABIBARAFIQ/TourHub"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="kind">Full-stack</span>
+            <h3>TourHub</h3>
+            <p>
+              Search, book, and pay for tours, with a separate admin side for
+              managing listings and bookings.
+            </p>
+            <div class="stack">Node.js · Oracle DB · Bootstrap</div>
+            <div class="go">View code <i>→</i></div>
+          </a>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="sec-head reveal">
+          <span class="num">06</span>
+          <h2>Toolkit</h2>
+        </div>
+        <div class="skills">
+          <div class="reveal">
+            <div class="label">Machine learning &amp; deep learning</div>
+            <div class="chips">
+              <span class="chip">PyTorch</span
+              ><span class="chip">TensorFlow</span
+              ><span class="chip">scikit-learn</span
+              ><span class="chip">Python</span><span class="chip">R</span
+              ><span class="chip">pandas</span
+              ><span class="chip">Matplotlib</span
+              ><span class="chip">Seaborn</span>
+            </div>
+          </div>
+          <div class="reveal">
+            <div class="label">Research methods</div>
+            <div class="chips">
+              <span class="chip">Survey design</span
+              ><span class="chip">Semi-structured interviews</span
+              ><span class="chip">Thematic analysis</span
+              ><span class="chip">Mixed methods</span
+              ><span class="chip">Experimental evaluation</span
+              ><span class="chip">Statistical modelling</span
+              ><span class="chip">Research ethics</span>
+            </div>
+          </div>
+          <div class="reveal">
+            <div class="label">LLMs & generative AI</div>
+            <div class="chips">
+              <span class="chip">RAG</span><span class="chip">LangChain</span
+              ><span class="chip">Gemini API</span
+              ><span class="chip">OpenAI API</span
+              ><span class="chip">Hugging Face</span
+              ><span class="chip">Qdrant</span>
+            </div>
+          </div>
+          <div class="reveal">
+            <div class="label">Building & design</div>
+            <div class="chips">
+              <span class="chip">React</span><span class="chip">Node.js</span
+              ><span class="chip">PostgreSQL</span
+              ><span class="chip">MongoDB</span><span class="chip">Docker</span
+              ><span class="chip">Git</span><span class="chip">Figma</span
+              ><span class="chip">LaTeX</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="recognition">
+        <div class="sec-head reveal">
+          <span class="num">07</span>
+          <h2>Recognition</h2>
+        </div>
+        <ul class="rec reveal">
+          <li>
+            <span
+              ><strong>1st Runner-Up</strong>, Eco Tech Hackathon 2026 —
+              BUET</span
+            ><a
+              class="ul small"
+              href="https://drive.google.com/file/d/1ZJ7UESi0tRxZqX1mennvFtor2wG-3kj-/view?usp=sharing"
+              target="_blank"
+              rel="noopener"
+              >Certificate</a
+            >
+          </li>
+          <li>
+            <span
+              >Supervised Machine Learning: Regression and Classification —
+              Coursera</span
+            ><a
+              class="ul small"
+              href="https://coursera.org/share/85ae3e11a1edd00b6c38d5ced0b5bc8f"
+              target="_blank"
+              rel="noopener"
+              >Certificate</a
+            >
+          </li>
+          <li>
+            <span
+              >Learnathon 3.0 Fresher Training Program — Geeky Solutions</span
+            ><a
+              class="ul small"
+              href="https://drive.google.com/file/d/1FaouUhR_Lug6LAffMd7KoEh1wCCAj9dA/view?usp=sharing"
+              target="_blank"
+              rel="noopener"
+              >Certificate</a
+            >
+          </li>
+        </ul>
+      </section>
+
+      <section id="contact" class="contact">
+        <div class="reveal">
+          <div class="eyebrow">Get in touch</div>
+          <h2 style="margin-top: 14px">Let's talk.</h2>
+          <p class="muted">
+            I'm looking for research opportunities and collaborations in machine
+            learning, deep learning, and HCI, and I'm always happy to learn from
+            people working in the field.
+          </p>
+          <div class="cta">
+            <a class="btn solid" href="mailto:habibarafique526@gmail.com"
+              >habibarafique526@gmail.com</a
+            >
+            <a
+              class="btn"
+              href="https://linkedin.com/in/habiba-rafique"
+              target="_blank"
+              rel="noopener"
+              >LinkedIn</a
+            >
+            <a
+              class="btn"
+              href="https://github.com/HABIBARAFIQ"
+              target="_blank"
+              rel="noopener"
+              >GitHub</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <span>© <span id="yr"></span> Habiba Rafique</span>
+        <span>Dhaka, Bangladesh · English & Bengali</span>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("yr").textContent = new Date().getFullYear();
+
+      // Theme toggle
+      const root = document.documentElement,
+        themeBtn = document.getElementById("theme");
+      try {
+        const t = localStorage.getItem("theme");
+        if (t) root.dataset.theme = t;
+      } catch (e) {}
+      themeBtn.addEventListener("click", () => {
+        const dark = root.dataset.theme
+          ? root.dataset.theme === "dark"
+          : matchMedia("(prefers-color-scheme: dark)").matches;
+        root.dataset.theme = dark ? "light" : "dark";
+        try {
+          localStorage.setItem("theme", root.dataset.theme);
+        } catch (e) {}
+      });
+
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Reveal on scroll, staggered within each group
+      const revealIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            const siblings = [...e.target.parentElement.children].filter((c) =>
+              c.classList.contains("reveal"),
+            );
+            e.target.style.transitionDelay =
+              Math.max(0, siblings.indexOf(e.target)) * 80 + "ms";
+            e.target.classList.add("in");
+            revealIO.unobserve(e.target);
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => revealIO.observe(el));
+
+      // Count-up for thesis stats
+      const countIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            const el = e.target,
+              end = +el.dataset.count;
+            countIO.unobserve(el);
+            if (reduce) return;
+            const start = performance.now(),
+              dur = 1400;
+            const tick = (now) => {
+              const p = Math.min(1, (now - start) / dur);
+              el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+              if (p < 1) requestAnimationFrame(tick);
+            };
+            el.textContent = "0";
+            requestAnimationFrame(tick);
+          });
+        },
+        { threshold: 0.6 },
+      );
+      document
+        .querySelectorAll("[data-count]")
+        .forEach((el) => countIO.observe(el));
+
+      // Nav border, progress bar, active section
+      const nav = document.getElementById("nav"),
+        bar = document.getElementById("progress");
+      const navLinks = [...document.querySelectorAll(".links a")];
+      const sections = navLinks.map((a) =>
+        document.querySelector(a.getAttribute("href")),
+      );
+      const onScroll = () => {
+        const y = scrollY,
+          h = document.documentElement.scrollHeight - innerHeight;
+        nav.classList.toggle("scrolled", y > 10);
+        bar.style.width = (h > 0 ? (y / h) * 100 : 0) + "%";
+        let current = -1;
+        sections.forEach((s, i) => {
+          if (s && s.getBoundingClientRect().top < innerHeight * 0.35)
+            current = i;
+        });
+        navLinks.forEach((a, i) => a.classList.toggle("active", i === current));
+      };
+      addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    </script>
+  </body>
+</html>
